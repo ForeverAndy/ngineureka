@@ -1,6 +1,7 @@
 # linux下的配置和使用
 ## 0、配置注册中心
-用解压缩工具打开ngineureka.jar\BOOT-INF\classes\application.yml文件，这是一个标注的spring cloud配置
+打开application.yml文件，这是一个标准的spring cloud配置
+
 ```
 eureka:
   client:
@@ -10,10 +11,16 @@ server:
   tomcat:
     uri-encoding: UTF-8
   port: 10001
-  context-path: /ngineureka
+  servlet:
+    context-path: /${spring.application.name}
 spring:
   application:
     name: ngineureka
+  thymeleaf:
+    prefix: classpath:/static/
+    suffix: .html
+    cache: false #开发时热部署用，正式环境时请去除
+
 ```
 请将defaultZone改为注册中心地址
 
@@ -56,6 +63,8 @@ http {
 	    default_type 'text/html';
 	    charset utf-8;
 	    include apps/ngineureka_location.conf;
+	    
+	    #下面可添加其它转发规则
     }
 }
 ```
